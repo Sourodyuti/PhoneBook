@@ -1,6 +1,6 @@
 # PhoneBook
 
-![PhoneBook Screenshot](screenshot.png)
+![PhoneBook Screenshot](Screenshot_1png)[PhoneBook Screenshot](Screenshot_2.png)[PhoneBook Screenshot](Screenshot_3.png)
 
 **PhoneBook** is a sleek and modern phonebook application designed to manage contacts with ease. Built with HTML, CSS, and JavaScript, it features a minimalist white-themed UI, responsive design, and interactive elements powered by Anime.js. Contacts are stored persistently using localStorage, and the app supports adding, searching, and deleting contacts with a smooth and intuitive user experience.
 
