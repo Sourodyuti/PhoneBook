@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhoneBook</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa, #e4e7eb);
+            color: #2d3748;
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.2em;
+            font-weight: 600;
+            color: #1a202c;
+        }
+
+        .header img {
+            width: 40px;
+            height: 40px;
+        }
+
+        h2 {
+            font-size: 1.3em;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: #4a5568;
+        }
+
+        .form-section, .search-section {
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .search-section .form-group {
+            grid-template-columns: 3fr 1fr;
+            align-items: center;
+        }
+
+        input, select {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            background: #f7fafc;
+            color: #2d3748;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #6b48ff;
+            box-shadow: 0 0 6px rgba(107, 72, 255, 0.3);
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            background: linear-gradient(45deg, #6b48ff, #00ddeb);
+            color: #ffffff;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: all 0.2s;
+        }
+
+        button:hover:not(:disabled) {
+            background: linear-gradient(45deg, #7c5dff, #33e4f0);
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(107, 72, 255, 0.4);
+        }
+
+        button:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .contact-card button {
+            background: linear-gradient(45deg, #e53e3e, #f56565);
+            padding: 8px 16px;
+            font-size: 0.9em;
+        }
+
+        .contact-card button:hover:not(:disabled) {
+            background: linear-gradient(45deg, #f56565, #fc8181);
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(229, 62, 62, 0.4);
+        }
+
+        .contacts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .contact-card {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .no-contacts {
+            text-align: center;
+            color: #4a5568;
+            padding: 15px;
+            font-size: 1em;
+        }
+
+        .alert {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+            font-size: 0.9em;
+        }
+
+        .alert.success {
+            background: #e6fffa;
+            color: #2b6cb0;
+        }
+
+        .alert.error {
+            background: #fff5f5;
+            color: #c53030;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            .form-group {
+                grid-template-columns: 1fr;
+            }
+
+            .search-section .form-group {
+                grid-template-columns: 1fr;
+            }
+
+            input, select, button {
+                width: 100%;
+            }
+
+            .contact-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .contact-card button {
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://api.iconify.design/mdi:contacts.svg?color=%231a202c" alt="ContactSphere Icon">
+            <h1>Phone Book</h1>
+        </div>
+
+        <!-- Add Contact Form -->
+        <div class="form-section">
+            <h2>Add Contact</h2>
+            <div class="form-group">
+                <input type="text" id="name" placeholder="Name" required aria-label="Contact Name">
+                <select id="countryCode" required aria-label="Country Code">
+                    <option value="">Select Country Code</option>
+                    <option value="+1">+1 (USA)</option>
+                    <option value="+44">+44 (UK)</option>
+                    <option value="+91">+91 (India)</option>
+                    <option value="+86">+86 (China)</option>
+                    <option value="+81">+81 (Japan)</option>
+                </select>
+                <input type="tel" id="phone" placeholder="Phone Number" required aria-label="Phone Number">
+                <button class="interactive-button" id="addButton" onclick="addContact()" aria-label="Add Contact">Add</button>
+            </div>
+        </div>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <h2>Search Contacts</h2>
+            <div class="form-group">
+                <input type="text" id="search" placeholder="Search by Name or Number" aria-label="Search Contacts">
+                <button class="interactive-button" onclick="searchContacts()" aria-label="Search Contacts">Search</button>
+            </div>
+        </div>
+
+        <!-- Alert Message -->
+        <div id="alert" class="alert" role="alert"></div>
+
+        <!-- Contacts Display -->
+        <div class="contacts-list" id="contactsList"></div>
+    </div>
+
+    <script>
+        // Initialize contacts from localStorage or empty array
+        let contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+        let idCounter = contacts.length > 0 ? Math.max(...contacts.map(c => c.id)) + 1 : 1;
+
+        // Save contacts to localStorage
+        function saveContacts() {
+            try {
+                localStorage.setItem('contacts', JSON.stringify(contacts));
+            } catch (error) {
+                showAlert('Failed to save contacts', 'error');
+                console.error('localStorage error:', error);
+            }
+        }
+
+        // Display alert messages with animation
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            if (!alert) {
+                console.error('Alert element not found');
+                return;
+            }
+            alert.textContent = message;
+            alert.className = `alert ${type}`;
+            alert.style.display = 'block';
+            anime({
+                targets: alert,
+                opacity: [0, 1],
+                translateY: [-20, 0],
+                duration: 500,
+                easing: 'easeOutQuad',
+                complete: () => {
+                    setTimeout(() => {
+                        anime({
+                            targets: alert,
+                            opacity: [1, 0],
+                            translateY: [0, 20],
+                            duration: 500,
+                            easing: 'easeInQuad',
+                            complete: () => {
+                                alert.style.display = 'none';
+                            }
+                        });
+                    }, 2000);
+                }
+            });
+        }
+
+        // Add a new contact with validation
+        function addContact() {
+            const nameInput = document.getElementById('name');
+            const countryCodeInput = document.getElementById('countryCode');
+            const phoneInput = document.getElementById('phone');
+            const addButton = document.getElementById('addButton');
+
+            if (!nameInput || !countryCodeInput || !phoneInput || !addButton) {
+                showAlert('Form elements not found', 'error');
+                console.error('Form elements missing');
+                return;
+            }
+
+            const name = nameInput.value.trim();
+            const countryCode = countryCodeInput.value;
+            const phone = phoneInput.value.trim();
+
+            addButton.disabled = true;
+
+            if (!name || !countryCode || !phone) {
+                showAlert('Please fill all fields', 'error');
+                addButton.disabled = false;
+                return;
+            }
+
+            if (!/^\d+$/.test(phone)) {
+                showAlert('Phone number must contain only digits', 'error');
+                addButton.disabled = false;
+                return;
+            }
+
+            const fullNumber = `${countryCode}${phone}`;
+            if (contacts.some(contact => contact.fullNumber === fullNumber)) {
+                showAlert('Contact with this number already exists', 'error');
+                addButton.disabled = false;
+                return;
+            }
+
+            try {
+                contacts.push({ id: idCounter++, name, countryCode, phone, fullNumber });
+                saveContacts();
+                nameInput.value = '';
+                countryCodeInput.value = '';
+                phoneInput.value = '';
+                showAlert('Contact added successfully', 'success');
+                displayContacts(contacts);
+            } catch (error) {
+                showAlert('Failed to add contact', 'error');
+                console.error('Add contact error:', error);
+            } finally {
+                addButton.disabled = false;
+            }
+        }
+
+        // Delete a contact by ID
+        function deleteContact(id) {
+            try {
+                contacts = contacts.filter(contact => contact.id !== id);
+                saveContacts();
+                showAlert('Contact deleted successfully', 'success');
+                displayContacts(contacts);
+            } catch (error) {
+                showAlert('Failed to delete contact', 'error');
+                console.error('Delete contact error:', error);
+            }
+        }
+
+        // Display contacts with animation and "No contacts" message
+        function displayContacts(contactsToShow) {
+            const contactsList = document.getElementById('contactsList');
+            if (!contactsList) {
+                showAlert('Contact list element not found', 'error');
+                console.error('Contacts list element missing');
+                return;
+            }
+            contactsList.innerHTML = '';
+            if (contactsToShow.length === 0) {
+                contactsList.innerHTML = '<div class="no-contacts">No contacts found</div>';
+                return;
+            }
+
+            contactsToShow.forEach(contact => {
+                const card = document.createElement('div');
+                card.className = 'contact-card';
+                card.innerHTML = `
+                    <span>${contact.name} (${contact.countryCode}${contact.phone})</span>
+                    <button class="interactive-button" onclick="deleteContact(${contact.id})" aria-label="Delete contact ${contact.name}">Delete</button>
+                `;
+                contactsList.appendChild(card);
+                anime({
+                    targets: card,
+                    opacity: [0, 1],
+                    translateX: [-50, 0],
+                    duration: 600,
+                    easing: 'easeOutCubic'
+                });
+            });
+
+            // Add interactive hover effects to buttons
+            document.querySelectorAll('.interactive-button').forEach(button => {
+                button.addEventListener('mousemove', (e) => {
+                    const rect = button.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    const tiltX = (y / rect.height) * 20;
+                    const tiltY = -(x / rect.width) * 20;
+                    button.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.05)`;
+                });
+
+                button.addEventListener('mouseenter', () => {
+                    button.style.boxShadow = button.classList.contains('contact-card') ?
+                        '0 4px 12px rgba(229, 62, 62, 0.4)' :
+                        '0 4px 12px rgba(107, 72, 255, 0.4)';
+                });
+
+                button.addEventListener('mouseleave', () => {
+                    button.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+                    button.style.boxShadow = 'none';
+                });
+            });
+        }
+
+        // Search contacts by name or number
+        function searchContacts() {
+            const searchInput = document.getElementById('search');
+            if (!searchInput) {
+                showAlert('Search input not found', 'error');
+                console.error('Search input missing');
+                return;
+            }
+            const searchValue = searchInput.value.trim().toLowerCase();
+
+            if (!searchValue) {
+                showAlert('Please enter a search term', 'error');
+                displayContacts(contacts);
+                return;
+            }
+
+            try {
+                const filteredContacts = contacts.filter(contact =>
+                    contact.name.toLowerCase().includes(searchValue) ||
+                    contact.fullNumber.includes(searchValue)
+                );
+
+                if (filteredContacts.length === 0) {
+                    showAlert('No contacts found', 'error');
+                } else {
+                    showAlert(`${filteredContacts.length} contact(s) found`, 'success');
+                }
+
+                displayContacts(filteredContacts);
+            } catch (error) {
+                showAlert('Search failed', 'error');
+                console.error('Search error:', error);
+            }
+        }
+
+        // Enable form submission with Enter key
+        document.getElementById('name').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addContact();
+        });
+        document.getElementById('phone').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addContact();
+        });
+        document.getElementById('search').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') searchContacts();
+        });
+
+        // Initial display
+        displayContacts(contacts);
+    </script>
+</body>
+</html>
