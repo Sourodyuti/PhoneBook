@@ -51,10 +51,10 @@ A sleek, lightweight contact manager built with HTML, CSS, JavaScript, and C. Fe
 ## 📸 Screenshots
 
 ![screenshot](Pictures/Screenshot_1.png)
-*Main interface of PhoneBook with contact cards and gradient buttons.*
+*Adding a new contact with name, country code, and phone number.*
 
 ![screenshot:56](Pictures/Screenshot_2.png)
-*Adding a new contact with name, country code, and phone number.*
+*Deleting a Contact.*
 
 ![screenshot](Pictures/Screenshot_3.png)
 *Searching and filtering contacts by name or number.*([GitHub Docs][1])
