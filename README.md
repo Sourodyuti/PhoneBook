@@ -1,8 +1,8 @@
-# ContactSphere
+# PhoneBook
 
-![ContactSphere Screenshot](screenshot.png)
+![PhoneBook Screenshot](screenshot.png)
 
-**ContactSphere** is a sleek and modern phonebook application designed to manage contacts with ease. Built with HTML, CSS, and JavaScript, it features a minimalist white-themed UI, responsive design, and interactive elements powered by Anime.js. Contacts are stored persistently using localStorage, and the app supports adding, searching, and deleting contacts with a smooth and intuitive user experience.
+**PhoneBook** is a sleek and modern phonebook application designed to manage contacts with ease. Built with HTML, CSS, and JavaScript, it features a minimalist white-themed UI, responsive design, and interactive elements powered by Anime.js. Contacts are stored persistently using localStorage, and the app supports adding, searching, and deleting contacts with a smooth and intuitive user experience.
 
 ## Features
 
@@ -17,7 +17,7 @@
 
 ## Demo
 
-Try ContactSphere live: [Insert Live Demo Link Here] (e.g., GitHub Pages, Netlify, or Vercel)
+Try PhoneBook live: [Insert Live Demo Link Here] (e.g., GitHub Pages, Netlify, or Vercel)
 
 ## Installation
 
