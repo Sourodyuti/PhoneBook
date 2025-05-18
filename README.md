@@ -76,7 +76,7 @@ A sleek, lightweight contact manager built with HTML, CSS, JavaScript, and C. Fe
 
 2. **Open the Application**:
 
-   * Open `index.html` in your preferred web browser (e.g., Chrome, Firefox).
+   * Open `PhoneBook.html` in your preferred web browser (e.g., Chrome, Firefox).
    * For an enhanced experience, serve the project using a local server:
 
      ```bash
